@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>U Maker Fest Sunumu</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap');
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #71B7E6, #9B59B6);
+            color: #fff;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            position: relative;
+        }
+
+        .presentation-container {
+            width: 100%;
+            max-width: 800px;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+
+        .slide {
+            display: none;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 90%;
+            max-width: 700px;
+            text-align: center;
+            padding: 2rem;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            backdrop-filter: blur(10px);
+            opacity: 0;
+            animation: slide-in 1s forwards cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        .slide.active {
+            display: block;
+            opacity: 1;
+        }
+        
+        @keyframes slide-in {
+            from {
+                opacity: 0;
+                transform: translate(-50%, -40%) scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: translate(-50%, -50%) scale(1);
+            }
+        }
+
+        h1 {
+            font-size: 3rem;
+            font-weight: 900;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 5px rgba(0,0,0,0.3);
+        }
+
+        p {
+            font-size: 1.25rem;
+            line-height: 1.6;
+        }
+
+        .team-member {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 1rem;
+        }
+
+        .team-member-name {
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 0.5rem 1rem;
+            border-radius: 15px;
+            margin-top: 0.5rem;
+            animation: pulse 1.5s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.05);
+            }
+        }
+
+        .button {
+            position: absolute;
+            bottom: 2rem;
+            right: 2rem;
+            padding: 0.75rem 1.5rem;
+            background-color: #fca311;
+            color: #1a1a1a;
+            font-weight: 900;
+            border-radius: 9999px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .button:hover {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.4);
+        }
+
+        .prev-button {
+            left: 2rem;
+            right: auto;
+            background-color: #e5e5e5;
+            color: #1a1a1a;
+        }
+
+        video {
+            width: 100%;
+            height: auto;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2rem;
+            }
+            p {
+                font-size: 1rem;
+            }
+            .button {
+                padding: 0.5rem 1rem;
+                font-size: 0.875rem;
+                bottom: 1rem;
+                right: 1rem;
+            }
+            .prev-button {
+                left: 1rem;
+            }
+        }
+
+        .fade-out {
+            animation: fade-out 1s forwards;
+        }
+
+        @keyframes fade-out {
+            from { opacity: 1; }
+            to { opacity: 0; }
+        }
+        
+        /* Kupa Animasyonu */
+        @keyframes trophy-fly-across {
+            0% {
+                transform: translateX(-150%) scale(0.5) rotate(0deg);
+                opacity: 0;
+            }
+            50% {
+                transform: translateX(0) scale(1.5) rotate(30deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateX(150%) scale(0.5) rotate(0deg);
+                opacity: 0;
+            }
+        }
+        
+        /* Paragraf Animasyonu */
+        @keyframes paragraph-animate {
+            from {
+                opacity: 0;
+                transform: translateY(20px) scale(0.9);
+                font-size: 1.5rem; /* Animasyon başlangıç boyutu */
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+                font-size: 2rem; /* Animasyon bitiş boyutu (daha büyük) */
+            }
+        }
+        
+        .trophy-emoji {
+            font-size: 6rem;
+            transition: transform 0.3s ease-in-out;
+            opacity: 0; /* Başlangıçta gizli */
+        }
+
+        .trophy-emoji.start-animation {
+            animation: trophy-fly-across 3s forwards;
+        }
+        
+        .trophy-paragraph {
+            opacity: 0; /* Başlangıçta gizli */
+            transform: scale(0.9);
+            transition: all 1s ease-in-out;
+            margin-top: 4rem; /* Başlıktan daha fazla uzaklaştırmak için */
+        }
+
+        .trophy-paragraph.start-animation {
+            animation: paragraph-animate 1s forwards;
+        }
+    </style>
+</head>
+<body>
+
+<div class="presentation-container">
+    
+    <!-- Sayfa 1: Giriş -->
+    <div id="slide-1" class="slide active">
+        <div class="flex flex-col items-center justify-center h-full">
+            <h1 class="text-4xl md:text-5xl font-extrabold text-white text-center drop-shadow-lg">
+                Merhaba! Biz <span class="text-yellow-400">Team OF Mind</span>!
+            </h1>
+            <p class="mt-4 text-xl md:text-2xl font-semibold text-center leading-relaxed">
+                Geçtiğimiz yıl katıldığımız U Maker Fest macerasını anlatmaya geldik! 🥳
+            </p>
+            <div class="flex mt-8 gap-4">
+                <div class="team-member">
+                    <div class="team-member-name">Emir</div>
+                </div>
+                <div class="team-member">
+                    <div class="team-member-name">Işıl</div>
+                </div>
+                <div class="team-member">
+                    <div class="team-member-name">Nilda</div>
+                </div>
+                <div class="team-member">
+                    <div class="team-member-name">Devrim</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Sayfa 2: Proje Konusu -->
+    <div id="slide-2" class="slide">
+        <div class="flex flex-col items-center justify-center h-full">
+            <h1 class="text-4xl md:text-5xl font-extrabold text-white drop-shadow-lg">
+                "Sudaki Yaşam" Kategorisi 🐳
+            </h1>
+            <p class="mt-4 text-xl md:text-2xl font-semibold text-center leading-relaxed">
+                Hedefimiz, hem eğlenceli hem de bilgilendirici bir Roblox oyunuyla su altı dünyasının güzelliklerini göstermekti. 🐠🌊
+            </p>
+        </div>
+    </div>
+
+    <!-- Sayfa 3: Görev Dağılımı -->
+    <div id="slide-3" class="slide">
+        <div class="flex flex-col items-center justify-center h-full">
+            <h1 class="text-4xl md:text-5xl font-extrabold text-white drop-shadow-lg">
+                Ekip İşbirliği 👍
+            </h1>
+            <p class="mt-4 text-xl md:text-2xl font-semibold text-center leading-relaxed">
+                💻 Ben ve Devrim oyunun kodlamasıyla uğraştık. Saatlerce kod yazarak su altı canlılarını canlandırdık.
+            </p>
+            <p class="mt-4 text-xl md:text-2xl font-semibold text-center leading-relaxed">
+                🎨 Işıl ve Nilda ise afişlerimizi hazırlayarak projemizin tanıtımını yaptılar. Onların sayesinde projemiz çok havalı görünüyordu!
+            </p>
+        </div>
+    </div>
+
+    <!-- Sayfa 4: Başarı -->
+    <div id="slide-4" class="slide">
+        <div class="flex flex-col items-center justify-center h-full">
+            <h1 class="text-4xl md:text-5xl font-extrabold text-white drop-shadow-lg mb-4">
+                Büyük Gün! 🏆
+            </h1>
+            <p id="trophy-paragraph" class="text-xl md:text-2xl font-semibold text-center leading-relaxed trophy-paragraph">
+                Yoğun çalışmalarımızın ve takım ruhumuzun ödülü olarak, U Maker Fest yarışmasında "En İyi Sunum Gümüş Kupası"nı kazandık! ✨
+            </p>
+            <span id="trophy-emoji" class="trophy-emoji" role="img" aria-label="Kupa">
+                🏆
+            </span>
+        </div>
+    </div>
+
+    <!-- Sayfa 5: Öğrenilenler -->
+    <div id="slide-5" class="slide">
+        <div class="flex flex-col items-center justify-center h-full">
+            <h1 class="text-4xl md:text-5xl font-extrabold text-white drop-shadow-lg">
+                Önemli Dersler 💡
+            </h1>
+            <p class="mt-4 text-xl md:text-2xl font-semibold text-center leading-relaxed">
+                Bu deneyim bize, hayallerimizin peşinden gitmenin, birlikte çalışmanın ve yaratıcılığımızı kullanmanın ne kadar değerli olduğunu öğretti. 💖
+            </p>
+        </div>
+    </div>
+    
+    <!-- Sayfa 6: Gelecek Planlarımız -->
+    <div id="slide-6" class="slide">
+        <div class="flex flex-col items-center justify-center h-full">
+            <h1 class="text-4xl md:text-5xl font-extrabold text-white drop-shadow-lg">
+                Gelecek Planlarımız 🚀
+            </h1>
+            <p class="mt-4 text-xl md:text-2xl font-semibold text-center leading-relaxed">
+                Bu başarı hikayesinden sonra, gelecekte de bu tür projelere imza atmak ve yeni başarılar elde etmek için sabırsızlanıyoruz! 💪
+            </p>
+        </div>
+    </div>
+
+    <!-- Sayfa 7: Daha İyi Bir Gelecek İçin -->
+    <div id="slide-7" class="slide">
+        <div class="flex flex-col items-center justify-center h-full">
+            <h1 class="text-4xl md:text-5xl font-extrabold text-white drop-shadow-lg">
+                Daha İyi Bir Gelecek İçin 🌊
+            </h1>
+            <p class="mt-4 text-xl md:text-2xl font-semibold text-center leading-relaxed">
+                Unutmayın, teknoloji ve yaratıcılığı bir araya getirerek dünyayı daha iyi bir yer yapabiliriz. Bizim gibi genç mucitlere güvenin! 💖
+            </p>
+        </div>
+    </div>
+    
+    <!-- Sayfa 8: Video -->
+    <div id="slide-8" class="slide">
+        <div class="flex flex-col items-center justify-center h-full">
+            <h1 class="text-4xl md:text-5xl font-extrabold text-white drop-shadow-lg mb-4">
+                Başarı Anımız:
+            </h1>
+            <!-- Video, kullanıcı tarafından sağlanacak olan images/animation.mp4 dosyasını kullanır. -->
+            <video id="animation-video" src="images/animation.mp4" controls autoplay></video>
+        </div>
+    </div>
+
+    <!-- Navigasyon butonları -->
+    <button id="prev-button" class="button prev-button hidden">
+        < Geri
+    </button>
+    <button id="next-button" class="button">
+        İleri >
+    </button>
+
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', async () => {
+        const slides = document.querySelectorAll('.slide');
+        const nextButton = document.getElementById('next-button');
+        const prevButton = document.getElementById('prev-button');
+        const video = document.getElementById('animation-video');
+        let currentSlide = 0;
+        
+        // İlk slaytı görünür yap
+        slides[currentSlide].classList.add('active');
+
+        // Slayt değiştirme fonksiyonu
+        function showSlide(index) {
+            slides[currentSlide].classList.remove('active');
+            slides[currentSlide].classList.add('fade-out');
+            
+            // Eğer bir önceki slayt Büyük Gün slaytıysa, animasyonları sıfırla
+            if (currentSlide === 3) {
+                const trophy = document.getElementById('trophy-emoji');
+                const paragraph = document.getElementById('trophy-paragraph');
+                trophy.classList.remove('start-animation');
+                paragraph.classList.remove('start-animation');
+            }
+
+            setTimeout(() => {
+                slides[currentSlide].style.display = 'none';
+                slides[currentSlide].classList.remove('fade-out');
+                currentSlide = index;
+                slides[currentSlide].style.display = 'block';
+                slides[currentSlide].classList.add('active');
+
+                // Eğer yeni slayt Büyük Gün slaytıysa, animasyonları başlat
+                if (currentSlide === 3) {
+                    const trophy = document.getElementById('trophy-emoji');
+                    const paragraph = document.getElementById('trophy-paragraph');
+                    
+                    // Kupa animasyonunu başlat
+                    setTimeout(() => {
+                        trophy.classList.add('start-animation');
+                    }, 500); // 0.5 saniye sonra başlasın
+
+                    // Paragraf animasyonunu kupa animasyonundan sonra başlat
+                    setTimeout(() => {
+                        paragraph.classList.add('start-animation');
+                    }, 3500); // Kupa animasyonu + 0.5 saniye sonra başlasın
+                }
+            }, 500); // Fade-out süresi kadar bekleme
+        }
+
+        // İleri butonu tıklama olayı
+        nextButton.addEventListener('click', () => {
+            if (currentSlide < slides.length - 1) {
+                showSlide(currentSlide + 1);
+            }
+            updateButtons();
+        });
+
+        // Geri butonu tıklama olayı
+        prevButton.addEventListener('click', () => {
+            if (currentSlide > 0) {
+                showSlide(currentSlide - 1);
+            }
+            updateButtons();
+        });
+
+        // Butonların görünürlüğünü güncelleme
+        function updateButtons() {
+            if (currentSlide === 0) {
+                prevButton.classList.add('hidden');
+            } else {
+                prevButton.classList.remove('hidden');
+            }
+            
+            if (currentSlide === slides.length - 1) {
+                nextButton.classList.add('hidden');
+                video.play();
+            } else {
+                nextButton.classList.remove('hidden');
+            }
+
+            if (currentSlide === slides.length - 2) {
+                nextButton.textContent = 'Videoyu İzle >';
+            } else {
+                nextButton.textContent = 'İleri >';
+            }
+        }
+        
+        // Sayfa yüklendiğinde butonları ayarla
+        updateButtons();
+    });
+</script>
+
+</body>
+</html>
